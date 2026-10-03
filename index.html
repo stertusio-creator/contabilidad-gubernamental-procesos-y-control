@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contabilidad gubernamental · Profesor Sergio Tertusio</title>
+<style>
+  :root {
+    --bg: #f3efe6;
+    --bg-2: #e6e0d2;
+    --surface: #fbf8f2;
+    --ink: #1a2330;
+    --muted: #5c6670;
+    --line: #d4cdc0;
+    --accent: #0e3d4c;
+    --accent-soft: #e4eef0;
+    --warm: #a34b24;
+    --header: #0e3d4c;
+    --header-ink: #f6f1e8;
+    --good: #1b5e3b;
+    --good-bg: #e3f2e9;
+    --bad: #8c2f2a;
+    --bad-bg: #f8e7e4;
+    --shadow: 0 10px 30px rgba(26, 35, 48, 0.06);
+    --serif: "Iowan Old Style", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --sans: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    --radius: 14px;
+  }
+  [data-theme="dark"] {
+    --bg: #101418;
+    --bg-2: #1a2128;
+    --surface: #171e26;
+    --ink: #ece6dc;
+    --muted: #a5aeb6;
+    --line: #2d3842;
+    --accent: #9fd0d0;
+    --accent-soft: #1c2c32;
+    --warm: #e3a06a;
+    --header: #0c1116;
+    --header-ink: #f3eee6;
+    --good: #9ed4b4;
+    --good-bg: #163028;
+    --bad: #f0aaa4;
+    --bad-bg: #3a2220;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  }
+  * { box-sizing: border-box; }
+  html { overflow-x: hidden; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  button, [role="button"] { cursor: pointer; font-family: inherit; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--warm); outline-offset: 2px; }
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--header);
+    color: var(--header-ink);
+    border-bottom: 3px solid var(--warm);
+  }
+  .top .who {
+    flex: 1 1 12rem;
+    min-width: 0;
+    font-family: var(--serif);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: clamp(0.95rem, 2.6vw, 1.2rem);
+    line-height: 1.15;
+  }
+  .top .who small {
+    display: block;
+    font-family: var(--sans);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    opacity: 0.78;
+    margin-top: 2px;
+  }
+  .iconbtn, .textbtn {
+    border: 1px solid rgba(246, 241, 232, 0.35);
+    background: transparent;
+    color: var(--header-ink);
+    border-radius: 999px;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 0.92rem;
+  }
+  .iconbtn:hover, .textbtn:hover { background: rgba(255,255,255,0.08); }
+  main { width: min(920px, calc(100% - 28px)); margin: 0 auto; padding: 28px 0 72px; }
+  .kicker {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--warm);
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  h1.hero {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 7vw, 3.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 12px;
+  }
+  .lede { color: var(--muted); max-width: 62ch; margin: 0 0 22px; }
+  .cards { display: grid; gap: 14px; }
+  @media (min-width: 800px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    text-align: left;
+    color: inherit;
+    padding: 0;
+    width: 100%;
+  }
+  @media (min-width: 720px) {
+    .card { grid-template-columns: 210px 1fr; }
+  }
+  .card .art {
+    background: var(--accent-soft);
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+  }
+  .card .art svg { width: 100%; height: auto; max-height: 150px; }
+  .card .body { padding: 16px 16px 18px; }
+  .card h2 { font-family: var(--serif); font-size: 1.35rem; margin: 0 0 6px; line-height: 1.2; }
+  .card p { margin: 0 0 12px; color: var(--muted); font-size: 0.98rem; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .pill {
+    font-size: 0.78rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 10px;
+    color: var(--muted);
+  }
+  .bar { flex: 1; min-width: 90px; height: 6px; background: var(--bg-2); border-radius: 99px; overflow: hidden; }
+  .bar span { display: block; height: 100%; background: var(--accent); width: 0; }
+  [data-theme="dark"] .bar span { background: var(--warm); }
+  .lecture-head h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+    line-height: 1.12;
+    margin: 0 0 8px;
+  }
+  .figure {
+    margin: 14px 0 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 12px 8px;
+    overflow: hidden;
+  }
+  .figure svg { width: 100%; height: auto; display: block; }
+  .figure figcaption {
+    margin: 8px 2px 2px;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .steps { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+  .step {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 999px;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 0.9rem;
+  }
+  .step[aria-current="true"] { background: var(--accent); color: var(--header-ink); border-color: var(--accent); }
+  [data-theme="dark"] .step[aria-current="true"] { color: #102026; }
+  .step.done { box-shadow: inset 0 0 0 2px var(--good); }
+  h3 { font-family: var(--serif); font-size: 1.35rem; margin: 8px 0 8px; }
+  h4 { margin: 16px 0 6px; font-size: 1rem; }
+  p { margin: 0 0 12px; max-width: 68ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 1.2rem; max-width: 68ch; }
+  li { margin: 0 0 6px; }
+  .note {
+    border-left: 3px solid var(--warm);
+    padding: 8px 12px;
+    margin: 0 0 14px;
+    color: var(--ink);
+    background: var(--accent-soft);
+    border-radius: 0 10px 10px 0;
+    max-width: 68ch;
+  }
+  .activity {
+    margin-top: 8px;
+    padding: 14px;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .activity h4 { margin-top: 0; }
+  .opts { display: grid; gap: 8px; }
+  .opt {
+    text-align: left;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--accent); }
+  .opt.right { background: var(--good-bg); border-color: var(--good); }
+  .opt.wrong { background: var(--bad-bg); border-color: var(--bad); }
+  .fb { margin: 10px 0 0; font-size: 0.98rem; }
+  .fb.ok { color: var(--good); }
+  .fb.no { color: var(--bad); }
+  .navrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .primary, .ghost {
+    min-height: 44px;
+    border-radius: 999px;
+    padding: 0 16px;
+    font-size: 0.98rem;
+  }
+  .primary { background: var(--accent); color: var(--header-ink); border: 0; }
+  [data-theme="dark"] .primary { color: #102026; }
+  .ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .qhead { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; color: var(--muted); font-size: 0.88rem; }
+  .score {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin: 8px 0;
+  }
+  .modal-back {
+    position: fixed; inset: 0; background: rgba(16, 20, 24, 0.55);
+    display: flex; align-items: flex-end; justify-content: center;
+    z-index: 40; padding: 16px;
+  }
+  @media (min-width: 640px) { .modal-back { align-items: center; } }
+  .modal {
+    width: min(460px, 100%);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 16px;
+    padding: 18px;
+    border: 1px solid var(--line);
+  }
+  .modal h3 { margin-top: 0; }
+  .hidden { display: none !important; }
+  .source { font-size: 0.82rem; color: var(--muted); margin-top: 22px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="textbtn" id="btnMenu" type="button">Menú</button>
+  <div class="who">Profesor Sergio Tertusio<small>Contabilidad gubernamental</small></div>
+  <button class="iconbtn" id="btnTheme" type="button" aria-pressed="false">Claro</button>
+  <button class="textbtn" id="btnReset" type="button">Reiniciar</button>
+</header>
+<main id="app"></main>
+<div id="modal" class="hidden"></div>
+<script>
+const STORE = { l1: "cg-u1-l1", l2: "cg-u1-l2", l3: "cg-u1-l3", theme: "cg-u1-theme" };
+
+const svg = {
+  cover1: `<svg viewBox="0 0 320 180" role="img" aria-label="Esquema de un macroproceso que contiene un microproceso">
+    <rect x="16" y="28" width="288" height="128" rx="16" fill="none" stroke="currentColor" stroke-width="3"/>
+    <text x="28" y="54" fill="currentColor" font-size="15" font-family="Georgia, serif">PCG · macro</text>
+    <rect x="78" y="74" width="164" height="58" rx="12" fill="none" stroke="currentColor" stroke-width="3"/>
+    <text x="108" y="108" fill="currentColor" font-size="15" font-family="Georgia, serif">PCI · micro</text>
+  </svg>`,
+  cover2: `<svg viewBox="0 0 320 180" role="img" aria-label="Cadena desde el documento fuente hasta el estado financiero">
+    <g fill="none" stroke="currentColor" stroke-width="3">
+      <rect x="18" y="36" width="70" height="108" rx="8"/>
+      <rect x="108" y="58" width="70" height="64" rx="8"/>
+      <rect x="198" y="28" width="104" height="124" rx="8"/>
+    </g>
+    <text x="30" y="96" fill="currentColor" font-size="13" font-family="Georgia, serif">Fuente</text>
+    <text x="124" y="96" fill="currentColor" font-size="13" font-family="Georgia, serif">Asiento</text>
+    <text x="214" y="96" fill="currentColor" font-size="13" font-family="Georgia, serif">Estados</text>
+  </svg>`,
+  dims: `<svg viewBox="0 0 680 200" role="img" aria-label="Macroproceso gubernamental y microproceso institucional">
+    <g fill="none" stroke="currentColor" stroke-width="2.5">
+      <rect x="16" y="24" width="648" height="156" rx="16"/>
+      <rect x="180" y="78" width="320" height="72" rx="12"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif">
+      <text x="36" y="58" font-size="18">PCG · macroproceso del sector público</text>
+      <text x="214" y="120" font-size="16">PCI · microproceso de la entidad</text>
+    </g>
+  </svg>`,
+  cover3: `<svg viewBox="0 0 320 180" role="img" aria-label="Cinco componentes alrededor de un centro">
+    <circle cx="160" cy="90" r="28" fill="none" stroke="currentColor" stroke-width="3"/>
+    <g fill="none" stroke="currentColor" stroke-width="3">
+      <rect x="118" y="14" width="84" height="28" rx="8"/>
+      <rect x="230" y="48" width="74" height="28" rx="8"/>
+      <rect x="214" y="118" width="84" height="28" rx="8"/>
+      <rect x="22" y="118" width="84" height="28" rx="8"/>
+      <rect x="16" y="48" width="74" height="28" rx="8"/>
+    </g>
+    <text x="136" y="96" fill="currentColor" font-size="12" font-family="Georgia, serif">Control</text>
+  </svg>`,
+  sys: `<svg viewBox="0 0 680 250" role="img" aria-label="Entradas, proceso y salidas, con realimentación y control">
+    <rect x="8" y="8" width="664" height="234" rx="18" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 6"/>
+    <text x="24" y="32" fill="currentColor" font-size="14" font-family="Georgia, serif">Control</text>
+    <rect x="36" y="70" width="160" height="64" rx="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <text x="78" y="108" fill="currentColor" font-size="16" font-family="Georgia, serif">Entradas</text>
+    <rect x="260" y="70" width="160" height="64" rx="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <text x="302" y="108" fill="currentColor" font-size="16" font-family="Georgia, serif">Proceso</text>
+    <rect x="484" y="70" width="160" height="64" rx="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <text x="530" y="108" fill="currentColor" font-size="16" font-family="Georgia, serif">Salidas</text>
+    <path d="M196 102 H250 M444 102 H474" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="210" y="160" width="260" height="48" rx="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <text x="268" y="190" fill="currentColor" font-size="16" font-family="Georgia, serif">Realimentación</text>
+    <path d="M116 134 V184 H200 M564 134 V184 H480" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="currentColor"/></marker></defs>
+  </svg>`,
+  stages: `<svg viewBox="0 0 680 120" role="img" aria-label="Etapas del proceso contable institucional">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" font-family="Georgia, serif" font-size="13">
+      <rect x="8" y="28" width="120" height="64" rx="10"/><rect x="144" y="28" width="120" height="64" rx="10"/>
+      <rect x="280" y="28" width="120" height="64" rx="10"/><rect x="416" y="28" width="120" height="64" rx="10"/>
+      <rect x="552" y="28" width="120" height="64" rx="10"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif" font-size="13" text-anchor="middle">
+      <text x="68" y="66">Reconocer</text>
+      <text x="204" y="58">Medir</text><text x="204" y="76">al inicio</text>
+      <text x="340" y="58">Medir</text><text x="340" y="76">después</text>
+      <text x="476" y="66">Presentar</text>
+      <text x="612" y="66">Revelar</text>
+    </g>
+  </svg>`,
+  docs: `<svg viewBox="0 0 680 200" role="img" aria-label="Documentos internos y externos llegan al comprobante de diario">
+    <g fill="none" stroke="currentColor" stroke-width="2.5">
+      <rect x="24" y="24" width="180" height="56" rx="10"/>
+      <rect x="24" y="112" width="180" height="56" rx="10"/>
+      <rect x="400" y="68" width="250" height="64" rx="10"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif" font-size="16">
+      <text x="48" y="58">Origen interno</text>
+      <text x="48" y="146">Origen externo</text>
+      <text x="430" y="106">Comprobante de diario</text>
+    </g>
+    <path d="M204 52 H300 V100 H390 M204 140 H300 V100" fill="none" stroke="currentColor" stroke-width="2"/>
+  </svg>`,
+  books: `<svg viewBox="0 0 680 210" role="img" aria-label="Libros principales sintetizan y los auxiliares detallan">
+    <g fill="none" stroke="currentColor" stroke-width="2.5">
+      <rect x="30" y="30" width="280" height="150" rx="12"/>
+      <rect x="370" y="30" width="280" height="150" rx="12"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif">
+      <text x="52" y="62" font-size="18">Principales</text>
+      <text x="52" y="100" font-size="15">Diario general</text>
+      <text x="52" y="128" font-size="15">Mayor general</text>
+      <text x="52" y="160" font-size="13">Registro sintetizado</text>
+      <text x="392" y="62" font-size="18">Auxiliares</text>
+      <text x="392" y="100" font-size="15">Detalle por cuenta</text>
+      <text x="392" y="128" font-size="15">y por documento</text>
+      <text x="392" y="160" font-size="13">Sustentan a los principales</text>
+    </g>
+  </svg>`,
+  sheets: `<svg viewBox="0 0 680 180" role="img" aria-label="Dos hojas de trabajo preceden a los estados financieros">
+    <g fill="none" stroke="currentColor" stroke-width="2.5">
+      <rect x="20" y="28" width="190" height="120" rx="10"/>
+      <rect x="240" y="28" width="190" height="120" rx="10"/>
+      <rect x="460" y="28" width="200" height="120" rx="10"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif" font-size="15">
+      <text x="36" y="70">Balance de</text><text x="36" y="92">comprobación</text>
+      <text x="256" y="70">Balance</text><text x="256" y="92">constructivo</text>
+      <text x="478" y="78">Estados</text><text x="478" y="100">financieros</text>
+    </g>
+  </svg>`,
+  five: `<svg viewBox="0 0 680 220" role="img" aria-label="Cinco componentes del control interno">
+    <g fill="none" stroke="currentColor" stroke-width="2.4">
+      <rect x="16" y="20" width="200" height="52" rx="10"/>
+      <rect x="240" y="20" width="200" height="52" rx="10"/>
+      <rect x="464" y="20" width="200" height="52" rx="10"/>
+      <rect x="120" y="120" width="200" height="52" rx="10"/>
+      <rect x="360" y="120" width="210" height="52" rx="10"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif" font-size="14">
+      <text x="32" y="52">1. Ambiente</text>
+      <text x="256" y="52">2. Riesgos</text>
+      <text x="480" y="52">3. Información</text>
+      <text x="136" y="152">4. Actividades</text>
+      <text x="376" y="152">5. Monitoreo</text>
+    </g>
+  </svg>`,
+  split: `<svg viewBox="0 0 680 180" role="img" aria-label="Control interno administrativo y control interno contable">
+    <g fill="none" stroke="currentColor" stroke-width="2.5">
+      <rect x="20" y="24" width="300" height="132" rx="12"/>
+      <rect x="360" y="24" width="300" height="132" rx="12"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif">
+      <text x="40" y="58" font-size="16">Administrativo</text>
+      <text x="40" y="92" font-size="14">Eficiencia operacional</text>
+      <text x="40" y="118" font-size="14">Adhesión a políticas</text>
+      <text x="380" y="58" font-size="16">Contable</text>
+      <text x="380" y="92" font-size="14">Información razonable</text>
+      <text x="380" y="118" font-size="14">Protección de activos</text>
+    </g>
+  </svg>`,
+  risk: `<svg viewBox="0 0 680 160" role="img" aria-label="Actividades del proceso contable expuestas a riesgo">
+    <g fill="none" stroke="currentColor" stroke-width="2.4">
+      <rect x="12" y="40" width="150" height="80" rx="10"/>
+      <rect x="180" y="40" width="150" height="80" rx="10"/>
+      <rect x="348" y="40" width="150" height="80" rx="10"/>
+      <rect x="516" y="40" width="150" height="80" rx="10"/>
+    </g>
+    <g fill="currentColor" font-family="Georgia, serif" font-size="14" text-anchor="middle">
+      <text x="87" y="86">Identificar</text>
+      <text x="255" y="86">Clasificar</text>
+      <text x="423" y="78">Registrar</text><text x="423" y="98">y ajustar</text>
+      <text x="591" y="78">Evaluar</text><text x="591" y="98">y comunicar</text>
+    </g>
+  </svg>`
+};
+
+const lectures = {
+  l1: {
+    title: "Proceso contable gubernamental e institucional",
+    blurb: "Cómo el sector público y cada entidad convierten hechos económicos en información útil.",
+    cover: svg.cover1,
+    source: "Contraloría General de la República (2017), Gaceta Oficial Digital del 17 de enero.",
+    modules: [
+      {
+        title: "Dos dimensiones",
+        html: `
+          <p>El proceso contable es una secuencia de pasos ligados entre sí. Sirve para recopilar, clasificar, analizar, registrar, procesar y producir información financiera: desde el inicio de una transacción hasta la entrega de los estados financieros.</p>
+          <p>La Gaceta Oficial Digital del 17 de enero, citada por la Contraloría General de la República (2017), organiza ese sistema en dos dimensiones. El fin es información útil para políticas económicas, gestión, decisiones, control y rendición de cuentas.</p>
+          <ul>
+            <li><strong>Proceso Contable Gubernamental (PCG).</strong> Es el macroproceso. Reúne elementos que recopilan, analizan, agregan y consolidan la información de las entidades para los estados financieros consolidados del sector público.</li>
+            <li><strong>Proceso Contable Institucional (PCI).</strong> Es el microproceso. Sigue las actividades de cada entidad.</li>
+          </ul>
+          <p>El PCG ayuda a decidir a nivel macroeconómico, rendir cuentas, evaluar la gestión de los administradores en conjunto, facilitar el control y alimentar las estadísticas de las finanzas públicas.</p>
+          <div class="note">Los dos procesos se leen igual: entradas, proceso, salidas, realimentación y control.</div>`,
+        fig: svg.dims,
+        cap: "Ilustración original. El esquema sistémico es el mismo para el PCG y para el PCI.",
+        activity: {
+          prompt: "Según la lectura, ¿qué describe al PCI?",
+          options: [
+            "El macroproceso que consolida la información de todo el sector público.",
+            "El microproceso definido según las actividades de cada entidad.",
+            "Un informe económico del Fondo Monetario Internacional."
+          ],
+          answer: 1,
+          why: "La lectura llama macroproceso al PCG y microproceso al PCI, este último según lo que hace cada entidad."
+        }
+      },
+      {
+        title: "El PCG como sistema",
+        html: `
+          <h4>Entradas</h4>
+          <p>Son los insumos que entran al PCG.</p>
+          <ul>
+            <li><strong>Disposiciones constitucionales y legales:</strong> el marco jurídico de las finanzas públicas.</li>
+            <li><strong>Reglas contables macroeconómicas:</strong> lineamientos del FMI (producto interno bruto, ingresos nacionales, balanza de pagos, relación deuda pública–producto interno bruto) y del IPSASB para la información consolidada.</li>
+            <li><strong>Reguladores:</strong> la Contraloría fija métodos y sistemas de contabilidad de dependencias nacionales, municipales, autónomas o semiautónomas, empresas públicas y juntas comunales. El Ministerio de Economía y Finanzas presenta los estados consolidados y administra la infraestructura tecnológica.</li>
+            <li><strong>Información financiera y no financiera</strong> de las entidades.</li>
+            <li><strong>Supervisión y control:</strong> Contraloría, Ministerio de Economía y Finanzas y Superintendencias.</li>
+            <li><strong>Infraestructura tecnológica</strong> para procesar y obtener información consolidada.</li>
+            <li><strong>Usuarios:</strong> Órgano Legislativo, administración central, Contraloría, ciudadanos, residentes que no califican como ciudadanos, organismos internacionales bilaterales y multilaterales, proveedores, prestamistas y corporaciones.</li>
+          </ul>
+          <h4>Proceso y salidas</h4>
+          <p>El proceso transforma datos de transacciones en información financiera. Incluye analizar, agregar y consolidar, y también investigar y normalizar cuando no existe una NICSP, para regular reconocimiento, medición y revelación.</p>
+          <ul>
+            <li>Información agregada y consolidada del periodo, ya descontadas las transacciones entre entidades del sector.</li>
+            <li>Instructivos, según las NICSP, que emite y divulga la Contraloría para el proceso institucional.</li>
+            <li>Informes económicos, con los parámetros legales y de organismos como el FMI.</li>
+            <li>Compilación conceptual, comunicada a las entidades y al Ministerio de Economía y Finanzas para adecuar sus aplicativos.</li>
+          </ul>
+          <h4>Retroalimentación y control</h4>
+          <p>La retroalimentación evalúa el desempeño para mejorar el PCG. La lectura señala cinco aspectos: capacidades del recurso humano, aplicación de la normativa, calidad de los datos, oportunidad de la información y operatividad de la infraestructura tecnológica.</p>
+          <p>El control es el seguimiento constante: ¿la información sirve para decidir, controlar y rendir cuentas? Si algo lo impide, se ajustan las entradas y el procesamiento.</p>`,
+        fig: svg.sys,
+        cap: "Ilustración original. Repite la idea ya escrita: entradas, proceso, salidas, realimentación y control.",
+        activity: {
+          prompt: "Al preparar la información consolidada del sector, las transacciones entre entidades del propio sector…",
+          options: [
+            "se descuentan, después de analizarlas.",
+            "se suman otra vez, para no perder detalle.",
+            "se omiten desde la entidad y no se registran."
+          ],
+          answer: 0,
+          why: "La salida consolidada muestra la situación del sector una vez analizadas y descontadas las transacciones entre entidades del sector."
+        }
+      },
+      {
+        title: "El PCI en la entidad",
+        html: `
+          <p>El PCI recopila, clasifica, analiza, registra y procesa los hechos económicos de la entidad. Así produce información para decidir, rendir cuentas, evaluar la gestión, apoyar la consolidación y ejercer el control interno y externo.</p>
+          <p>Esa información es el insumo principal de los Estados Financieros Consolidados del Sector Público. El Ministerio de Economía y Finanzas dirige la administración financiera del Estado. Esos estados pasan a ser fuente oficial de la situación del sector público una vez que los examina la Contraloría General de la República.</p>
+          <h4>Entradas</h4>
+          <ul>
+            <li><strong>Disposiciones contables:</strong> Marco Conceptual y NICSP del IPSASB (IFAC), Manual General de Contabilidad Gubernamental basado en NICSP y Manual de Estadísticas de Finanzas Públicas del FMI.</li>
+            <li><strong>Recurso humano</strong> de contabilidad, con dominio de las NICSP y de la herramienta del Ministerio o de la propia entidad.</li>
+            <li><strong>Infraestructura tecnológica</strong> para autorizar, registrar, archivar y producir información.</li>
+            <li><strong>Políticas contables,</strong> que la Contraloría divulga y evalúa para que se apliquen de forma uniforme.</li>
+            <li><strong>Plan general de cuentas:</strong> códigos y conceptos metódicos, flexibles, homogéneos y con terminología clara.</li>
+            <li><strong>Hechos económicos</strong> de la misión institucional, con respaldo documental.</li>
+            <li><strong>Documentos fuente</strong> internos o externos: contratos, órdenes de compra, nóminas, viáticos, facturas, recepciones y despachos, actas de disposición final, cheques, entre otros.</li>
+          </ul>
+          <h4>Proceso</h4>
+          <ul>
+            <li><strong>Reconocimiento:</strong> incorporar una partida a los estados financieros.</li>
+            <li><strong>Medición inicial:</strong> el valor al momento de reconocerla.</li>
+            <li><strong>Medición posterior:</strong> ajustar el saldo según libros a su valor razonable.</li>
+            <li><strong>Presentación:</strong> estructurar los estados para mostrar una imagen fiel.</li>
+            <li><strong>Revelación:</strong> notas que ayudan a comprender las cifras.</li>
+          </ul>
+          <p>Esas etapas son de quienes llevan la contabilidad, conforme a la NICSP, el Manual y la Contraloría.</p>
+          <h4>Gestión, salidas, retroalimentación y control</h4>
+          <p>La gestión contable y documental llega hasta los estados financieros, con documentos fuente, comprobantes de diario y libros principales y auxiliares, manuales o mecanizados. Sus actividades son identificación (hechos que afectan la estructura financiera), clasificación (asociarlos a los elementos de los estados) y registro (asientos según los documentos fuente). La Contraloría suministra los modelos de registro, es decir, la parametrización.</p>
+          <p>La salida son los estados financieros con los modelos del Manual. La retroalimentación mira capacidades del personal, normativa, calidad de los datos, oportunidad, y utilidad y operatividad de la tecnología. El control sigue el sistema y ajusta entradas y procesamiento cuando algo impide decidir, controlar y rendir cuentas.</p>`,
+        fig: svg.stages,
+        cap: "Ilustración original. Orden de las etapas del PCI que ya describe el texto.",
+        activity: {
+          kind: "order",
+          prompt: "Ordena las etapas del PCI. Pulsa cada una en el orden de la lectura.",
+          options: ["Presentación", "Reconocimiento", "Revelación", "Medición inicial", "Medición posterior"],
+          answer: [1, 3, 4, 0, 2],
+          why: "El orden de la lectura es reconocimiento, medición inicial, medición posterior, presentación y revelación."
+        }
+      }
+    ],
+    quiz: [
+      { t: "tf", q: "El Proceso Contable Gubernamental es el microproceso de cada entidad.", options: ["Verdadero", "Falso"], a: 1, why: "El PCG es el macroproceso. El microproceso, según las actividades de la entidad, es el PCI." },
+      { t: "mc", q: "¿Quién presenta los estados financieros consolidados del sector público?", options: ["El Órgano Legislativo", "El Ministerio de Economía y Finanzas", "Las Superintendencias", "El IPSASB"], a: 1, why: "En las entradas del PCG, el Ministerio de Economía y Finanzas presenta esos estados y administra la infraestructura tecnológica. La Contraloría establece los métodos." },
+      { t: "tf", q: "La información consolidada descuenta las transacciones hechas entre entidades del sector.", options: ["Verdadero", "Falso"], a: 0, why: "La salida consolidada representa la situación del sector después de analizar y descontar esas transacciones internas." },
+      { t: "mc", q: "En el PCI, la medición posterior sirve para…", options: ["Incorporar por primera vez una partida a los estados", "Ajustar el saldo según libros a su valor razonable", "Redactar las notas de los estados", "Elegir a los usuarios del sistema"], a: 1, why: "La medición inicial fija el valor al reconocer. La posterior valora la partida después, para llevar el saldo según libros a su valor razonable." },
+      { t: "tf", q: "El plan general de cuentas es una salida del PCI.", options: ["Verdadero", "Falso"], a: 1, why: "Es una entrada: el ordenamiento de códigos y conceptos con el que se registran los hechos que ingresan al proceso." },
+      { t: "mc", q: "¿Cuál de estos aspectos usa la retroalimentación del PCG?", options: ["La oportunidad de la información producida", "La aprobación del presupuesto por el Órgano Legislativo", "La firma de contratos con proveedores", "La elección de los miembros de una junta comunal"], a: 0, why: "Los cinco aspectos son capacidades del personal, aplicación de la normativa, calidad de los datos, oportunidad de la información y operatividad tecnológica. El Órgano Legislativo aparece como usuario, no como aspecto de la retroalimentación." },
+      { t: "mc", q: "¿Qué etapa incorpora una partida a los elementos de los estados financieros?", options: ["Revelación", "Reconocimiento", "Clasificación documental", "Compilación conceptual"], a: 1, why: "La lectura define el reconocimiento como el conjunto de acciones para incorporar una partida a los estados financieros." },
+      { t: "tf", q: "La Contraloría divulga y evalúa las políticas contables para que las entidades las usen de manera uniforme.", options: ["Verdadero", "Falso"], a: 0, why: "Así lo dice la lectura al describir las políticas contables como entrada del PCI." },
+      { t: "mc", q: "La gestión contable y documental del PCI comprende…", options: ["Solo la publicación de informes del FMI", "Identificación, clasificación y registro de los hechos económicos", "Únicamente la consolidación macroeconómica", "La designación de las Superintendencias"], a: 1, why: "Esas tres actividades llegan hasta los estados financieros, apoyadas en documentos fuente, comprobantes y libros." },
+      { t: "tf", q: "El control del PCI busca ver qué impide los objetivos y ajustar entradas y procesamiento.", options: ["Verdadero", "Falso"], a: 0, why: "El control es seguimiento constante para lograr información útil, y los ajustes se hacen en entradas y procesamiento." }
+    ]
+  },
+  l2: {
+    title: "Herramientas de la gestión contable y documental",
+    blurb: "Del documento que prueba un hecho hasta los estados financieros de la entidad.",
+    cover: svg.cover2,
+    source: "Contraloría General de la República (2017), Gaceta Oficial Digital del 17 de enero.",
+    modules: [
+      {
+        title: "Del documento al asiento",
+        html: `
+          <p>Las herramientas de la gestión contable y documental son los documentos fuente, los comprobantes de diario y los libros principales y auxiliares. Pueden llevarse a mano o mecanizarse.</p>
+          <p>El documento fuente da sustento y evidencia del hecho económico. Aporta datos para analizar, reconocer y comprobar. Respalda el comprobante de diario y se archiva como fue expedido, con los medios tecnológicos de la entidad y los lineamientos de las autoridades.</p>
+          <ul>
+            <li><strong>Interno:</strong> lo genera la entidad sin afectación directa con otras personas. Sirve para amortizaciones, depreciaciones, deterioros, agotamiento, revaluaciones, despachos, disposiciones finales y ajustes.</li>
+            <li><strong>Externo:</strong> vincula a la entidad con otras personas. Ejemplos de la lectura: recibos de ingresos, boletas de depósitos, contratos, órdenes de compra, facturas, recepciones de bienes, actas de aceptación de servicios, cheques girados, comprobantes de cajas menudas y planillas.</li>
+          </ul>
+          <p>El comprobante de diario registra el asiento del hecho. Se hace a mano o mecanizado, a partir del documento fuente. La Contraloría, organismo rector, define tipos, periodicidad, conservación, numeración y responsables.</p>
+          <p>Cada comprobante indica fecha, número de transacción, código y nombre de las cuentas, valores, débito o crédito, y conserva la partida doble. Lleva una explicación breve y la identificación de quien lo elabora y de quien lo aprueba.</p>`,
+        fig: svg.docs,
+        cap: "Ilustración original. Interno y externo alimentan el comprobante, como explica la lectura.",
+        activity: {
+          prompt: "Una depreciación calculada por la propia entidad, sin trato directo con otra persona, se documenta con un documento fuente…",
+          options: ["de origen interno.", "de origen externo.", "que reemplaza al comprobante de diario."],
+          answer: 0,
+          why: "Los documentos internos reconocen, entre otros, depreciaciones, amortizaciones y ajustes generados por la entidad. El comprobante no desaparece: se apoya en ese documento."
+        }
+      },
+      {
+        title: "Libros y formalidades",
+        html: `
+          <p>Los libros registran, de forma sistematizada, analítica y sintetizada, hechos reconocidos y medidos según las NICSP. Si se usan aplicativos, deben poder imprimirse el diario general, el mayor general y los auxiliares.</p>
+          <p>Los <strong>principales</strong> asientan en orden cronológico y sintetizado lo que traen los comprobantes. Son el diario general y el mayor general.</p>
+          <ul>
+            <li><strong>Diario general:</strong> libro de entrada original. Registra los asientos de los comprobantes.</li>
+            <li><strong>Mayor general:</strong> clasifica las cuentas del plan general. Anota débitos y créditos y muestra saldos.</li>
+          </ul>
+          <p>Los <strong>auxiliares</strong> detallan, en orden cronológico, lo que sostienen los principales:</p>
+          <ul>
+            <li><strong>Cuentas por cobrar:</strong> movimientos por deudor y sus saldos.</li>
+            <li><strong>Inventarios:</strong> entradas, salidas, bajas y saldos; fechas, tipos, marcas, modelos, ubicación, proveedores y documentos de entrada, salida y disposición final.</li>
+            <li><strong>Propiedad, planta y equipo:</strong> cantidades y valores del activo fijo, bajas, deterioros, amortizaciones, revaluaciones y saldos, con datos de identificación y documentos de adquisición.</li>
+            <li><strong>Cuentas por pagar:</strong> movimientos por acreedor, con fechas, datos del acreedor y documentos de compra.</li>
+            <li><strong>Ingresos presupuestarios:</strong> corrientes y de capital, según las partidas del Presupuesto General del Estado.</li>
+            <li><strong>Gastos presupuestarios:</strong> corrientes y de capital, según las etapas de las Normas Generales de Administración Presupuestaria.</li>
+          </ul>
+          <p>La Contraloría oficializa los libros principales con registro, foliación y rúbrica, en actas de apertura. Si son manuales, antes de usarlos. Si salen de un aplicativo, los impresos se oficializan dentro de los quince días siguientes a cada trimestre. Los auxiliares se registran y rubrican en administración o finanzas, en el registro llamado «Control de libros de contabilidad».</p>
+          <p>Se llevan en español y se conservan de modo que autenticidad e integridad queden a salvo. Si el registro es electrónico, se graban copias de respaldo en medios magnéticos. No se alteran fechas, no se dejan espacios en blanco, no se borra, tacha, interlinea ni se cambian hojas. Un error de transcripción se corrige con otro comprobante de diario. Anular un folio se hace sobre el mismo, con causa, fecha, nombre y firma. Libros, comprobantes y documentos fuente quedan a disposición de la Contraloría y de las demás autoridades. Si hay pérdida, hurto o destrucción, el custodio lo denuncia y lo informa a la Contraloría y al Ministerio de Economía y Finanzas.</p>`,
+        fig: svg.books,
+        cap: "Ilustración original. Los principales sintetizan; los auxiliares detallan y los sustentan.",
+        activity: {
+          prompt: "Hay un error de transcripción en un libro. ¿Qué permite la lectura?",
+          options: [
+            "Tacharlo y escribir el dato correcto al margen.",
+            "Corregirlo mediante un comprobante de diario con el asiento que corresponda.",
+            "Dejar el folio en blanco y abrir otro libro sin dejar constancia."
+          ],
+          answer: 1,
+          why: "Tachar, borrar, interlinear o corregir encima no está permitido. El error se corrige con el comprobante de diario del asiento correspondiente. La anulación de un folio, si hace falta, se hace sobre el mismo folio, con causa, fecha, nombre y firma."
+        }
+      },
+      {
+        title: "Hojas de trabajo y estados",
+        html: `
+          <p>Las hojas de trabajo resumen, en orden, movimientos y saldos de cuentas financieras y presupuestarias de un periodo. Con ellas se estructuran los estados financieros.</p>
+          <ul>
+            <li><strong>Balance de comprobación:</strong> sumas acumuladas iniciales, movimientos del mes, sumas acumuladas finales y saldos actuales de las cuentas patrimoniales, de gestión y presupuestarias.</li>
+            <li><strong>Balance constructivo:</strong> esos saldos actuales, los asientos de ajuste y la distribución de saldos, para formular los estados.</li>
+          </ul>
+          <p>Los estados financieros son el producto final del proceso contable institucional. Muestran activos, pasivos, patrimonio, ingresos y gastos. En cifras: situación financiera, cambios patrimoniales, rendimientos y flujos de efectivo. En calidad: las notas.</p>
+          <ol>
+            <li>Estado de situación financiera o inicial.</li>
+            <li>Estado de rendimiento financiero.</li>
+            <li>Estado de cambios en los activos netos/patrimonio.</li>
+            <li>Estado de flujos de efectivo.</li>
+            <li>Notas y anexos.</li>
+          </ol>`,
+        fig: svg.sheets,
+        cap: "Ilustración original. Las dos hojas de trabajo preparan los estados que enumera la lectura.",
+        activity: {
+          prompt: "Necesitas ver los asientos de ajuste y cómo se distribuyen los saldos para formular los estados. ¿Qué hoja usas?",
+          options: ["El balance de comprobación.", "El balance constructivo.", "El auxiliar de inventarios."],
+          answer: 1,
+          why: "El balance constructivo muestra saldos actuales, asientos de ajuste y la distribución de esos saldos para formular los estados. El de comprobación resume sumas y movimientos, sin ese papel de ajuste."
+        }
+      }
+    ],
+    quiz: [
+      { t: "tf", q: "La depreciación calculada por la entidad, sin afectación directa con otra persona, se respalda en un documento fuente interno.", options: ["Verdadero", "Falso"], a: 0, why: "La lectura incluye depreciaciones, amortizaciones, deterioros y ajustes entre los documentos de origen interno." },
+      { t: "mc", q: "¿Qué documento registra el asiento y debe conservar la partida doble?", options: ["El documento fuente externo", "El comprobante de diario", "La hoja de trabajo", "El acta de apertura del libro"], a: 1, why: "El comprobante señala cuentas, valores y el movimiento débito o crédito, y en cada uno se cumple la partida doble." },
+      { t: "tf", q: "Los libros auxiliares sintetizan y los principales guardan el detalle analítico.", options: ["Verdadero", "Falso"], a: 1, why: "Es al revés. Los principales (diario y mayor) sintetizan. Los auxiliares registran el detalle que sustenta a los principales." },
+      { t: "mc", q: "Los impresos de libros principales generados por un aplicativo se oficializan…", options: ["Antes de adquirir el aplicativo", "Dentro de los quince días después de cada trimestre", "Solo al cerrar el año, ante el Ministerio de Economía y Finanzas", "Cuando el auxiliar de inventarios lo pida"], a: 1, why: "Los manuales se oficializan antes de usarse. Los impresos de aplicativos, dentro de los quince días posteriores a cada trimestre. La oficialización de los principales corresponde a la Contraloría." },
+      { t: "tf", q: "Un error de transcripción puede corregirse tachando la cifra en el libro.", options: ["Verdadero", "Falso"], a: 1, why: "No se permite tachar, borrar ni corregir encima. La corrección se hace con un comprobante de diario." },
+      { t: "mc", q: "El balance constructivo sirve para…", options: ["Archivar las facturas de proveedores", "Mostrar saldos, ajustes y su distribución a fin de formular los estados", "Oficializar el mayor general", "Sustituir las notas de los estados"], a: 1, why: "Así lo define la lectura: saldos actuales, asientos por ajustes y distribución de saldos para formular los estados financieros." },
+      { t: "tf", q: "El estado de flujos de efectivo forma parte de los estados financieros del proceso institucional.", options: ["Verdadero", "Falso"], a: 0, why: "La lectura enumera situación financiera, rendimiento, cambios en activos netos/patrimonio, flujos de efectivo, y notas y anexos." },
+      { t: "mc", q: "Si se pierden los libros, el funcionario que los custodia debe…", options: ["Reescribirlos sin dejar constancia", "Denunciar el hecho e informarlo a la Contraloría y al Ministerio de Economía y Finanzas", "Esperar al cierre del trimestre para decidir", "Anular el plan general de cuentas"], a: 1, why: "La lectura pide denunciar pérdida, hurto o destrucción ante las autoridades competentes e informar a la Contraloría y al Ministerio." },
+      { t: "tf", q: "El comprobante de diario solo puede elaborarse a mano.", options: ["Verdadero", "Falso"], a: 1, why: "La lectura dice que se elabora de forma manual o mecanizada, siempre sobre documentos fuente y con las formalidades de la Contraloría." },
+      { t: "mc", q: "¿Cuál es el libro de entrada original de los asientos?", options: ["Mayor general", "Diario general", "Auxiliar de cuentas por pagar", "Balance de comprobación"], a: 1, why: "El diario general registra cronológicamente los asientos contenidos en los comprobantes. El mayor clasifica después esas cuentas." }
+    ]
+  },
+  l3: {
+    title: "Estructura y clasificación del control interno",
+    blurb: "Qué sostiene la confianza en la información y cómo se cuida el proceso contable.",
+    cover: svg.cover3,
+    source: "Contraloría General de la República (2017), Gaceta Oficial Digital del 17 de enero.",
+    modules: [
+      {
+        title: "Estructura y componentes",
+        html: `
+          <p>El control interno es un proceso de la máxima autoridad, el consejo de directores, los jefes de departamento y el resto de servidores públicos. Busca salvaguardar los activos y dar una seguridad razonable sobre cuatro categorías: eficacia (lograr los objetivos), eficiencia (menor costo), confiabilidad de la información financiera y cumplimiento de las disposiciones legales y administrativas.</p>
+          <p>Su estructura son las disposiciones legales, políticas y procedimientos que dan a la administración una garantía razonable de cumplir objetivos y metas. También sujeta los actos administrativos al principio de legalidad.</p>
+          <p>Cinco componentes se relacionan entre sí:</p>
+          <ol>
+            <li><strong>Ambiente de control.</strong> Es el entorno que influye en cómo el personal controla su trabajo. Sobre él se apoyan los otros cuatro. Incluye integridad, ética, capacidad, estilo directivo, estructura, asignación de autoridad y políticas de recurso humano.</li>
+            <li><strong>Evaluación de riesgos.</strong> Identifica y analiza riesgos relevantes, también los que traen los cambios internos y del entorno.</li>
+            <li><strong>Información y comunicación.</strong> Identifica, ordena, registra, produce, publica y protege información operativa y financiera veraz y oportuna, y la comunica.</li>
+            <li><strong>Actividades de control.</strong> Políticas y procedimientos que limitan los riesgos que amenazan los objetivos.</li>
+            <li><strong>Monitoreo o supervisión.</strong> Evaluación continua o periódica, según la importancia del riesgo, para comprobar que el sistema funciona y ajustar a tiempo.</li>
+          </ol>
+          <p>El diseño de esa estructura persigue, entre otros fines, planificación y presupuesto con economía, eficiencia y efectividad; una estructura orgánica que permita asignar responsabilidades; un instrumento normativo para los controles del proceso contable; personal calificado; protección de recursos; respuesta a los riesgos; información oportuna, confiable, exacta e íntegra; operaciones conforme a la ley; y un monitoreo que se adapte a los cambios.</p>
+          <p>Visto como sistema, el proceso contable lleva el control interno contable en cada eslabón: entradas, proceso, salidas y realimentación. El recorrido específico de los hechos pasa por reconocimiento, medición inicial y posterior, presentación y revelación, junto con la gestión contable y documental.</p>`,
+        fig: svg.five,
+        cap: "Ilustración original. Los cinco componentes que enumera la lectura.",
+        activity: {
+          prompt: "¿Sobre qué componente se apoyan los otros cuatro?",
+          options: ["El monitoreo", "La información y comunicación", "El ambiente de control"],
+          answer: 2,
+          why: "La lectura lo llama el principal elemento sobre el que se sustentan o actúan los otros cuatro: integridad, ética, capacidad y el entorno de gestión."
+        }
+      },
+      {
+        title: "Dos clases y cómo se pone en marcha",
+        html: `
+          <p>El control interno se divide en administrativo y contable.</p>
+          <ul>
+            <li><strong>Administrativo:</strong> adhesión a las políticas y procedimientos de todas las dependencias, para la eficiencia operacional. Se relaciona con autorizar transacciones: la función gerencial de alcanzar los objetivos, punto de partida del control contable sobre esas transacciones. Se comprueba con una evaluación operativa de la eficiencia, la economía y la efectividad con que la administración cumple planes, políticas y programas.</li>
+            <li><strong>Contable:</strong> seguimiento y evaluación que adopta el representante legal y aplican quienes trabajan en contabilidad. La información que sale del reconocimiento, la medición, la presentación y la revelación debe cumplir las características cualitativas, proteger activos e información y permitir mejoras. Lo forman las disposiciones, políticas y procedimientos del proceso contable.</li>
+          </ul>
+          <p>El representante legal es responsable de poner en marcha los elementos definidos en las Normas de Control Interno Gubernamental. La unidad interna de evaluación de la entidad revisa y evalúa esa estructura, en los términos de esas normas.</p>
+          <p>Implementar es aplicar los métodos para atender los factores que afectan algo en un momento dado. La lectura pide estas acciones:</p>
+          <ul>
+            <li><strong>Área contable</strong> —dirección, departamento, sección o unidad— acorde a la complejidad de la misión.</li>
+            <li><strong>Políticas contables</strong> basadas en las NICSP y el Manual, coordinadas con la Dirección Nacional de Métodos y Sistemas de Contabilidad. Cubren, entre otras, fechas de cierre, amortización, vidas útiles, provisiones, tipos de comprobantes, publicación, actualización de valores, conservación de libros y forma de las notas.</li>
+            <li><strong>Procedimientos:</strong> Manuales Específicos de Contabilidad Gubernamental, elaborados y actualizados con esa Dirección. Incluyen la estructura del área, el personal y sus funciones, si el trabajo es manual, mixto o automatizado, el plan de cuentas, las dinámicas, los asientos propios de la entidad y los informes.</li>
+            <li><strong>Personal idóneo</strong> para identificar, clasificar, registrar, ajustar, elaborar, analizar, interpretar y comunicar.</li>
+            <li><strong>Sistemas de información</strong> eficaces, eficientes y económicos, sea el proceso manual, mixto o automatizado. Si hay aplicativos, los evalúan la máxima autoridad, la dirección de administración o de finanzas, la dirección de contabilidad, la jefatura del área y la jefatura de la unidad interna de evaluación: miran los productos, la seguridad de la información y la integridad de los registros patrimoniales y presupuestarios.</li>
+            <li><strong>Riesgos</strong> del proceso contable, para cuidar las características cualitativas.</li>
+            <li><strong>Coordinación:</strong> las otras dependencias entregan los datos de los hechos económicos. Lo lidera la máxima autoridad.</li>
+          </ul>`,
+        fig: svg.split,
+        cap: "Ilustración original. Las dos clases de control interno que distingue la lectura.",
+        activity: {
+          prompt: "«Adhesión a políticas y procedimientos para lograr eficiencia operacional». ¿A qué clase corresponde?",
+          options: ["Control interno administrativo", "Control interno contable", "A las dos por igual, sin distinción"],
+          answer: 0,
+          why: "Esa es la definición que la lectura da del control interno administrativo. El contable se centra en la calidad de la información del proceso contable y en la protección de activos e información."
+        }
+      },
+      {
+        title: "Elementos, riesgo y seguimiento",
+        html: `
+          <p>Para que la información cumpla las características cualitativas, la entidad observa al menos estos elementos:</p>
+          <ul>
+            <li><strong>Depuración permanente de cifras</strong> que no tengan certeza de existencia o razonabilidad, y averiguar por qué no se incorporaron derechos u obligaciones.</li>
+            <li><strong>Registro de todos los hechos,</strong> con independencia de su cuantía y en relación con su función. Cada proceso se compromete a entregar su información.</li>
+            <li><strong>Individualización</strong> de bienes, derechos y obligaciones, en contabilidad o en bases de otras unidades.</li>
+            <li><strong>Deterioros, agotamientos y revaluaciones,</strong> calculados y reconocidos de forma individual.</li>
+            <li><strong>Soportes documentales</strong> de todos los hechos, para verificarlos de manera exhaustiva o aleatoria.</li>
+            <li><strong>Conciliaciones</strong> permanentes entre las unidades, con ajustes si hacen falta. Para el efectivo o sus equivalentes, la actividad principal es la conciliación bancaria mensual: estado de cuenta frente al saldo según libros.</li>
+            <li><strong>Libros de contabilidad,</strong> con los ajustes necesarios, como fuente de los estados financieros.</li>
+          </ul>
+          <p>El <strong>riesgo contable</strong> es la probabilidad de que algo en el proceso dañe la información y esta deje de cumplir las características cualitativas, porque los hechos no se reconocieron, midieron o revelaron como indican las disposiciones.</p>
+          <p>Las actividades expuestas a ese riesgo —y que por eso necesitan controles— son la identificación, la clasificación, el registro y los ajustes, la elaboración de información financiera, y la evaluación, el análisis y la comunicación.</p>
+          <ul>
+            <li><strong>Identificación:</strong> hechos que afectan la estructura financiera y, tras ver circunstancias y documentos, son objeto de reconocimiento.</li>
+            <li><strong>Clasificación:</strong> asociarlos a los elementos de los estados y al plan general de cuentas.</li>
+            <li><strong>Registros y ajustes:</strong> comprobantes de diario y libros, a mano o automatizados, previa verificación de la calidad de lo identificado y clasificado.</li>
+            <li><strong>Evaluación, análisis y comunicación:</strong> situación financiera, resultado de las operaciones y capacidad de generar flujos de efectivo.</li>
+          </ul>
+          <p>El seguimiento mira la calidad y la confianza que merece el sistema, y si los controles son eficaces, eficientes y económicos para prevenir y neutralizar el riesgo contable. Tres vías: la autoevaluación de quienes producen la información en el área contable; la evaluación institucional independiente, a cargo de la unidad interna de evaluación; y la evaluación externa, que corresponde a la Contraloría General de la República.</p>`,
+        fig: svg.risk,
+        cap: "Ilustración original. Actividades del proceso contable que la lectura señala como expuestas a riesgo.",
+        activity: {
+          prompt: "Un derecho de la entidad existe, pero no entró a la contabilidad. ¿Qué elemento pide aclarar por qué?",
+          options: [
+            "La depuración permanente de cifras.",
+            "Solo la conciliación bancaria mensual.",
+            "La compilación conceptual del PCG."
+          ],
+          answer: 0,
+          why: "La depuración atiende cifras sin certeza y, si faltan derechos u obligaciones, las razones por las que no se incorporaron. La conciliación bancaria compara el efectivo con el banco. La compilación conceptual pertenece al PCG, no a este elemento."
+        }
+      }
+    ],
+    quiz: [
+      { t: "tf", q: "El control interno lo ejecuta únicamente la máxima autoridad de la entidad.", options: ["Verdadero", "Falso"], a: 1, why: "También participan el consejo de directores, los jefes de departamento y el resto de servidores públicos." },
+      { t: "mc", q: "¿Cuál es el componente base de los otros cuatro?", options: ["Actividades de control", "Ambiente de control", "Monitoreo", "Evaluación de riesgos"], a: 1, why: "La lectura dice que el ambiente de control es, en esencia, el principal elemento sobre el que se sustentan los demás." },
+      { t: "tf", q: "El control interno administrativo se relaciona con autorizar transacciones como función gerencial.", options: ["Verdadero", "Falso"], a: 0, why: "Esa autorización, ligada a la responsabilidad de alcanzar los objetivos, es el punto de partida del control contable sobre las transacciones." },
+      { t: "mc", q: "El control interno contable busca, sobre todo, que…", options: ["la información del proceso cumpla las características cualitativas y que activos e información queden protegidos", "cada dependencia ignore las políticas para ganar rapidez", "el FMI elabore el comprobante de diario", "se eliminen las notas de los estados"], a: 0, why: "Así lo define la lectura: seguimiento para que reconocimiento, medición, presentación y revelación cumplan las características cualitativas y protejan activos e información." },
+      { t: "tf", q: "El representante legal responde por implementar los elementos del control interno contable.", options: ["Verdadero", "Falso"], a: 0, why: "La lectura le asigna la implementación de las actividades que materializan esos elementos, según las Normas de Control Interno Gubernamental." },
+      { t: "mc", q: "Los Manuales Específicos de Contabilidad Gubernamental se elaboran…", options: ["solo por el área de almacén", "por la entidad junto con la Dirección Nacional de Métodos y Sistemas de Contabilidad", "por los proveedores de la entidad", "por el Órgano Legislativo en cada comprobante"], a: 1, why: "La entidad y esa Dirección de la Contraloría elaboran y mantienen actualizados los manuales específicos." },
+      { t: "tf", q: "Solo deben registrarse los hechos económicos de cuantía alta.", options: ["Verdadero", "Falso"], a: 1, why: "La lectura pide registrar la totalidad de los hechos, con independencia de su cuantía, en relación con su función." },
+      { t: "mc", q: "El riesgo contable es la probabilidad de que…", options: ["suba el producto interno bruto", "la información no cumpla las características cualitativas porque un hecho no se reconoció, midió o reveló como corresponde", "el libro auxiliar tenga demasiadas columnas", "la entidad cambie de representante legal"], a: 1, why: "Esa es la definición del Manual que reproduce la lectura." },
+      { t: "tf", q: "Para el efectivo, la actividad principal de control es la conciliación bancaria mensual.", options: ["Verdadero", "Falso"], a: 0, why: "La lectura la señala como actividad principal para seguir las diferencias entre el estado de cuenta y el saldo según libros." },
+      { t: "mc", q: "La evaluación externa del control interno contable corresponde a…", options: ["cada proveedor", "la Contraloría General de la República", "el IPSASB", "el custodio del almacén"], a: 1, why: "La lectura reserva la evaluación externa a la Contraloría. La autoevaluación es del área contable y la evaluación independiente, de la unidad interna de la entidad." }
+    ]
+  }
+};
+
+let state = loadAll();
+let view = { screen: "home", id: null, mod: 0, q: 0 };
+
+function emptyProg() { return { acts: {}, quiz: {}, quizDone: false }; }
+function loadAll() {
+  const out = {};
+  for (const id of ["l1", "l2", "l3"]) {
+    try { out[id] = Object.assign(emptyProg(), JSON.parse(localStorage.getItem(STORE[id]) || "null") || {}); }
+    catch (e) { out[id] = emptyProg(); }
+  }
+  return out;
+}
+function save(id) { localStorage.setItem(STORE[id], JSON.stringify(state[id])); }
+function theme() { return localStorage.getItem(STORE.theme) || "light"; }
+function applyTheme(t) {
+  document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
+  const b = document.getElementById("btnTheme");
+  b.textContent = t === "dark" ? "Oscuro" : "Claro";
+  b.setAttribute("aria-pressed", t === "dark" ? "true" : "false");
+  b.setAttribute("aria-label", t === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
+}
+function progressOf(id) {
+  const L = lectures[id];
+  const p = state[id];
+  const mods = L.modules.filter((_, i) => p.acts[i] && p.acts[i].ok !== undefined).length;
+  const quiz = p.quizDone ? 1 : 0;
+  return { mods, total: L.modules.length, quiz, pct: Math.round(((mods + quiz) / (L.modules.length + 1)) * 100) };
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g, "\u0026amp;")
+    .replace(/</g, "\u0026lt;")
+    .replace(/>/g, "\u0026gt;")
+    .replace(/"/g, "\u0026quot;")
+    .replace(/'/g, "\u0026#39;");
+}
+
+function render(doScroll) {
+  const app = document.getElementById("app");
+  if (view.screen === "home") app.innerHTML = homeHTML();
+  else if (view.screen === "mod") app.innerHTML = modHTML();
+  else app.innerHTML = quizHTML();
+  bind();
+  if (doScroll !== false) window.scrollTo(0, 0);
+}
+
+function homeHTML() {
+  const cards = ["l1", "l2", "l3"].map((id, n) => {
+    const L = lectures[id];
+    const pr = progressOf(id);
+    const q = pr.quiz ? "Cuestionario hecho" : "Cuestionario pendiente";
+    return `<button class="card" type="button" data-open="${id}">
+      <div class="art">${L.cover}</div>
+      <div class="body">
+        <p class="kicker">Lectura ${n + 1}</p>
+        <h2>${esc(L.title)}</h2>
+        <p>${esc(L.blurb)}</p>
+        <div class="meta">
+          <span class="pill">${pr.mods} de ${pr.total} módulos</span>
+          <span class="pill">${q}</span>
+          <span class="bar" aria-hidden="true"><span style="width:${pr.pct}%"></span></span>
+        </div>
+      </div>
+    </button>`;
+  }).join("");
+  return `<p class="kicker">Unidad 1</p>
+    <h1 class="hero">Profesor Sergio Tertusio</h1>
+    <p class="lede">Contabilidad gubernamental. Tres lecturas para comprender cómo se produce, se documenta y se controla la información del sector público. El avance de cada lectura se guarda por separado.</p>
+    <div class="cards">${cards}</div>`;
+}
+
+function modHTML() {
+  const L = lectures[view.id];
+  const m = L.modules[view.mod];
+  const p = state[view.id];
+  const steps = L.modules.map((mod, i) => {
+    const done = p.acts[i] && p.acts[i].ok !== undefined;
+    return `<button class="step${done ? " done" : ""}" type="button" data-mod="${i}" aria-current="${i === view.mod ? "true" : "false"}">${i + 1}. ${esc(mod.title)}</button>`;
+  }).join("");
+  return `<article class="lecture-head">
+      <p class="kicker">Lectura ${view.id.slice(1)}</p>
+      <h1>${esc(L.title)}</h1>
+      <p class="lede">${esc(L.blurb)}</p>
+    </article>
+    <div class="steps">${steps}<button class="step" type="button" data-quiz="1">Cuestionario</button></div>
+    ${view.mod === 0 ? `<figure class="figure coverfig">${L.cover}<figcaption>Ilustración original de portada. Resume el tema de la lectura sin añadir datos.</figcaption></figure>` : ""}
+    <h3>${esc(m.title)}</h3>
+    ${m.html}
+    <figure class="figure">${m.fig}<figcaption>${esc(m.cap)}</figcaption></figure>
+    ${activityHTML(m.activity, p.acts[view.mod])}
+    <div class="navrow">
+      ${view.mod > 0 ? `<button class="ghost" type="button" data-mod="${view.mod - 1}">Módulo anterior</button>` : ""}
+      ${view.mod < L.modules.length - 1 ? `<button class="primary" type="button" data-mod="${view.mod + 1}">Siguiente módulo</button>` : `<button class="primary" type="button" data-quiz="1">Ir al cuestionario</button>`}
+    </div>
+    <p class="source">Fuente de esta lectura: ${esc(L.source)} Ilustraciones originales de la lección; no añaden datos ajenos al texto.</p>`;
+}
+
+function activityHTML(act, saved) {
+  if (act.kind === "order") return orderHTML(act, saved);
+  const locked = saved && saved.ok !== undefined;
+  const opts = act.options.map((op, i) => {
+    let cls = "opt";
+    if (locked && i === act.answer) cls += " right";
+    else if (locked && saved.pick === i && i !== act.answer) cls += " wrong";
+    return `<button class="${cls}" type="button" data-pick="${i}" ${locked ? "disabled" : ""}>${esc(op)}</button>`;
+  }).join("");
+  let fb = "";
+  if (locked) {
+    fb = `<p class="fb ${saved.ok ? "ok" : "no"}">${saved.ok ? "Correcto. " : "No es esa. "}${esc(act.why)}</p>`;
+  }
+  return `<section class="activity"><h4>Actividad</h4><p>${esc(act.prompt)}</p><div class="opts">${opts}</div>${fb}</section>`;
+}
+
+function orderHTML(act, saved) {
+  const locked = saved && saved.ok !== undefined;
+  if (!locked) {
+    const opts = act.options.map((op, i) => `<button class="opt" type="button" data-ord="${i}">${esc(op)}</button>`).join("");
+    const chosen = (view.order || []).map(i => act.options[i]);
+    const hint = chosen.length ? `<p class="fb">Orden elegido: ${chosen.map(esc).join(" → ")}</p>` : "";
+    return `<section class="activity"><h4>Actividad</h4><p>${esc(act.prompt)}</p><div class="opts">${opts}</div>${hint}
+      <div class="navrow"><button class="ghost" type="button" id="ordClear">Limpiar orden</button></div></section>`;
+  }
+  const fb = `<p class="fb ${saved.ok ? "ok" : "no"}">${saved.ok ? "Correcto. " : "Ese no es el orden de la lectura. "}${esc(act.why)}</p>`;
+  return `<section class="activity"><h4>Actividad</h4><p>${esc(act.prompt)}</p>${fb}</section>`;
+}
+
+function quizHTML() {
+  const L = lectures[view.id];
+  const p = state[view.id];
+  const pr = progressOf(view.id);
+  const steps = L.modules.map((mod, i) => `<button class="step" type="button" data-mod="${i}">${i + 1}. ${esc(mod.title)}</button>`).join("");
+  if (p.quizDone) {
+    const score = L.quiz.reduce((n, q, i) => n + (p.quiz[i] === q.a ? 1 : 0), 0);
+    return `<p class="kicker">Cuestionario · Lectura ${view.id.slice(1)}</p>
+      <h1>${esc(L.title)}</h1>
+      <div class="steps">${steps}<button class="step" type="button" data-quiz="1" aria-current="true">Cuestionario</button></div>
+      <p class="score">${score} de 10</p>
+      <p>${score >= 8 ? "Leíste con atención las ideas centrales de esta lectura." : "Conviene volver a los módulos de esta lectura y revisar las explicaciones."} El puntaje es solo de esta lectura.</p>
+      <div class="navrow"><button class="primary" type="button" id="retry">Reintentar cuestionario</button></div>
+      <p class="source">Módulos completados en esta lectura: ${pr.mods} de ${pr.total}. Fuente: ${esc(L.source)}</p>`;
+  }
+  const q = L.quiz[view.q];
+  const picked = p.quiz[view.q];
+  const locked = picked !== undefined;
+  const opts = q.options.map((op, i) => {
+    let cls = "opt";
+    if (locked && i === q.a) cls += " right";
+    else if (locked && picked === i && i !== q.a) cls += " wrong";
+    return `<button class="${cls}" type="button" data-qp="${i}" ${locked ? "disabled" : ""}>${esc(op)}</button>`;
+  }).join("");
+  let fb = "";
+  if (locked) {
+    const ok = picked === q.a;
+    fb = `<p class="fb ${ok ? "ok" : "no"}">${ok ? "Correcto. " : "Incorrecto. "}${esc(q.why)}</p>`;
+  }
+  return `<p class="kicker">Cuestionario · Lectura ${view.id.slice(1)}</p>
+    <h1>${esc(L.title)}</h1>
+    <div class="steps">${steps}<button class="step" type="button" data-quiz="1" aria-current="true">Cuestionario</button></div>
+    <p class="qhead"><span>Pregunta ${view.q + 1} de 10</span><span>${q.t === "tf" ? "Verdadero o falso" : "Opción múltiple"}</span></p>
+    <h3>${esc(q.q)}</h3>
+    <div class="opts">${opts}</div>
+    ${fb}
+    <div class="navrow">
+      ${view.q > 0 ? `<button class="ghost" type="button" id="qPrev">Anterior</button>` : ""}
+      ${locked && view.q < 9 ? `<button class="primary" type="button" id="qNext">Siguiente</button>` : ""}
+      ${locked && view.q === 9 ? `<button class="primary" type="button" id="qFinish">Ver puntaje</button>` : ""}
+    </div>`;
+}
+
+function bind() {
+  document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => {
+    view = { screen: "mod", id: b.dataset.open, mod: 0, q: 0, order: [] };
+    render();
+  }));
+  document.querySelectorAll("[data-mod]").forEach(b => b.addEventListener("click", () => {
+    view.screen = "mod";
+    view.mod = Number(b.dataset.mod);
+    view.order = [];
+    render();
+  }));
+  document.querySelectorAll("[data-quiz]").forEach(b => b.addEventListener("click", () => {
+    view.screen = "quiz";
+    const p = state[view.id];
+    if (!p.quizDone) {
+      const first = lectures[view.id].quiz.findIndex((_, i) => p.quiz[i] === undefined);
+      view.q = first === -1 ? 0 : first;
+    }
+    render();
+  }));
+  document.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => {
+    const act = lectures[view.id].modules[view.mod].activity;
+    const pick = Number(b.dataset.pick);
+    state[view.id].acts[view.mod] = { pick, ok: pick === act.answer };
+    save(view.id);
+    render(false);
+  }));
+  document.querySelectorAll("[data-ord]").forEach(b => b.addEventListener("click", () => {
+    const i = Number(b.dataset.ord);
+    view.order = view.order || [];
+    if (view.order.includes(i)) return;
+    view.order.push(i);
+    const act = lectures[view.id].modules[view.mod].activity;
+    if (view.order.length === act.options.length) {
+      const ok = act.answer.every((n, idx) => view.order[idx] === n);
+      state[view.id].acts[view.mod] = { order: view.order.slice(), ok };
+      save(view.id);
+    }
+    render(false);
+  }));
+  const clr = document.getElementById("ordClear");
+  if (clr) clr.addEventListener("click", () => { view.order = []; render(); });
+  document.querySelectorAll("[data-qp]").forEach(b => b.addEventListener("click", () => {
+    state[view.id].quiz[view.q] = Number(b.dataset.qp);
+    save(view.id);
+    render(false);
+  }));
+  const prev = document.getElementById("qPrev");
+  const next = document.getElementById("qNext");
+  const fin = document.getElementById("qFinish");
+  const retry = document.getElementById("retry");
+  if (prev) prev.addEventListener("click", () => { view.q -= 1; render(); });
+  if (next) next.addEventListener("click", () => { view.q += 1; render(); });
+  if (fin) fin.addEventListener("click", () => {
+    state[view.id].quizDone = true;
+    save(view.id);
+    render();
+  });
+  if (retry) retry.addEventListener("click", () => {
+    state[view.id].quiz = {};
+    state[view.id].quizDone = false;
+    save(view.id);
+    view.q = 0;
+    render();
+  });
+}
+
+document.getElementById("btnMenu").addEventListener("click", () => {
+  view = { screen: "home", id: null, mod: 0, q: 0 };
+  render();
+});
+document.getElementById("btnTheme").addEventListener("click", () => {
+  const next = theme() === "dark" ? "light" : "dark";
+  localStorage.setItem(STORE.theme, next);
+  applyTheme(next);
+});
+document.getElementById("btnReset").addEventListener("click", () => {
+  const modal = document.getElementById("modal");
+  modal.className = "modal-back";
+  modal.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rstTitle">
+    <h3 id="rstTitle">Reiniciar el avance</h3>
+    <p>Se borrará el avance de las tres lecturas: módulos, actividades y cuestionarios. El modo claro u oscuro se conserva.</p>
+    <div class="navrow">
+      <button class="ghost" type="button" id="rstNo">Cancelar</button>
+      <button class="primary" type="button" id="rstYes">Borrar avance</button>
+    </div>
+  </div>`;
+  document.getElementById("rstNo").focus();
+  document.getElementById("rstNo").onclick = () => { modal.className = "hidden"; modal.innerHTML = ""; };
+  document.getElementById("rstYes").onclick = () => {
+    for (const id of ["l1", "l2", "l3"]) {
+      localStorage.removeItem(STORE[id]);
+      state[id] = emptyProg();
+    }
+    modal.className = "hidden";
+    modal.innerHTML = "";
+    view = { screen: "home", id: null, mod: 0, q: 0 };
+    render();
+  };
+});
+
+applyTheme(theme());
+render();
+</script>
+</body>
+</html>
